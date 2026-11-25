@@ -1,0 +1,787 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Birthday Surprise ❤️</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #080808;
+  color: #f8e5b0;
+  font-family: Georgia, serif;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+:root {
+  --gold: #d4af37;
+  --light: #ffe7a0;
+  --dark: #080808;
+}
+
+.scene {
+  display: none;
+  min-height: 100vh;
+  padding: 35px 18px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.scene.active {
+  display: flex;
+  animation: appear 1s ease;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  color: var(--gold);
+  font-size: clamp(30px, 8vw, 48px);
+  margin: 15px 0;
+  text-shadow: 0 0 18px #b58b2a;
+}
+
+h2 {
+  color: var(--light);
+  margin: 15px 0;
+}
+
+p {
+  line-height: 1.8;
+  max-width: 520px;
+  color: #e7d9bd;
+  margin: 12px auto;
+}
+
+button {
+  background: linear-gradient(135deg, #f9df91, #b58b2a);
+  border: none;
+  padding: 13px 25px;
+  border-radius: 30px;
+  color: #17100a;
+  font-weight: bold;
+  font-size: 15px;
+  margin: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 18px #c49a3a55;
+}
+
+button:active {
+  transform: scale(.95);
+}
+
+.gold-text {
+  color: var(--gold);
+}
+
+.small {
+  font-size: 13px;
+  color: #bda977;
+}
+
+/* Golden background particles */
+
+.sparkle {
+  position: fixed;
+  top: -20px;
+  color: var(--gold);
+  pointer-events: none;
+  z-index: 10;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Countdown */
+
+.timer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 25px 0;
+}
+
+.time-box {
+  border: 1px solid var(--gold);
+  padding: 13px;
+  border-radius: 12px;
+  min-width: 65px;
+  background: #18130b;
+}
+
+.time-box strong {
+  display: block;
+  font-size: 24px;
+  color: var(--gold);
+}
+
+/* Gift */
+
+.gift {
+  font-size: 110px;
+  cursor: pointer;
+  transition: .5s;
+  filter: drop-shadow(0 0 20px #d4af3780);
+}
+
+.gift.open {
+  transform: rotate(15deg) scale(1.25);
+}
+
+.hidden-message {
+  display: none;
+  animation: appear 1s ease;
+}
+
+/* Cake */
+
+.cake {
+  font-size: 115px;
+  margin: 15px;
+  cursor: pointer;
+  filter: drop-shadow(0 0 20px #d4af3780);
+}
+
+.candle-note {
+  color: var(--gold);
+}
+
+/* Balloons */
+
+.balloon-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  max-width: 420px;
+  margin: 25px auto;
+}
+
+.balloon {
+  font-size: 55px;
+  cursor: pointer;
+  animation: float 2s ease-in-out infinite alternate;
+  transition: .3s;
+}
+
+@keyframes float {
+  to { transform: translateY(-15px); }
+}
+
+.balloon.popped {
+  opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
+}
+
+/* Memory photos */
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
+  margin: 20px auto;
+}
+
+.memory-grid img {
+  width: 100%;
+  height: 175px;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+}
+
+.video-box {
+  width: 100%;
+  max-width: 440px;
+  border: 2px solid var(--gold);
+  border-radius: 15px;
+  margin: 20px auto;
+}
+
+video {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Letter */
+
+.envelope {
+  font-size: 110px;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.envelope.open {
+  transform: rotate(-10deg) scale(1.2);
+}
+
+.letter {
+  display: none;
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(135deg, #f6e6bd, #d7b66b);
+  color: #2b1c0b;
+  border-radius: 12px;
+  padding: 25px;
+  line-height: 1.9;
+  margin-top: 20px;
+  animation: appear 1s ease;
+}
+
+.letter p {
+  color: #39250e;
+}
+
+/* Final */
+
+.final-heart {
+  font-size: 75px;
+  animation: beat 1s infinite;
+}
+
+@keyframes beat {
+  50% { transform: scale(1.2); }
+}
+
+footer {
+  color: #8e7742;
+  font-size: 12px;
+  margin-top: 25px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<button onclick="toggleMusic()" id="musicBtn"
+style="position:fixed;top:10px;right:8px;z-index:20;">
+♫ Music
+</button>
+
+<!-- SCENE 1: COUNTDOWN -->
+
+<section class="scene active" id="scene1">
+
+  <div style="font-size:50px">✦ ✨ ✦</div>
+
+  <p class="gold-text">A LITTLE SURPRISE IS WAITING FOR YOU MEOW</p>
+
+  <h1>Making the day memorable...</h1>
+
+  <p>Cheers to all the beautiful moments we have yet to create together.</p>
+
+  <h2>Every passing second is a quiet wish for your happiness</h2>
+
+  <div class="timer">
+    <div class="time-box"><strong id="days">00</strong>Days</div>
+    <div class="time-box"><strong id="hours">00</strong>Hours</div>
+    <div class="time-box"><strong id="minutes">00</strong>Minutes</div>
+    <div class="time-box"><strong id="seconds">00</strong>Seconds</div>
+  </div>
+
+  <p id="countdownText" class="small">The surprise is getting closer...</p>
+
+  <button onclick="goTo(2)">CLICK FOR YOUR SURPRISE ✨</button>
+
+</section>
+
+<!-- SCENE 2: WELCOME -->
+
+<section class="scene" id="scene2">
+
+  <p>பூமிக்கு நீ வந்த பொன்னாள் இது... 
+    என் வாழ்வின் வசந்தம் தொடங்கிய திருநாள் இது...</p>
+
+  <h1>Happy Birthday!!
+    இனிய பிறந்தநாள் வாழ்த்துக்கள்!
+  </h1>
+
+  <h2 id="partnerWelcome">To Someone Special ❤️</h2>
+
+  <p>
+    Forget the paper and the bow. The real magic is every moment I get to spend with you
+  </p>
+
+  <div style="font-size:50px">🥂 ✨ 🤴</div>
+
+  <button onclick="goTo(3)">Next page of love→</button>
+
+</section>
+
+<!-- SCENE 3: GIFT -->
+
+<section class="scene" id="scene3">
+
+  <p>A LITTLE PRESENT FOR YOU</p>
+
+  <h1>Open the Gift!</h1>
+
+  <div class="gift" id="gift" onclick="openGift()">🎁</div>
+
+  <p>Tap the gift box to unwrap the little suprise words for you.</p>
+
+  <div class="hidden-message" id="giftMessage">
+    <h2>✨Surprise!✨</h2>
+    <p>
+       For my dear person
+      I couldn't fit all our best days into one box, so I packed a little smile for you instead.
+    </p>
+    <button onclick="goTo(4)">CONTINUE →</button>
+  </div>
+
+</section>
+
+<!-- SCENE 4: CAKE -->
+
+<section class="scene" id="scene4">
+
+  <p>MAKE A WISH!</p>
+
+  <h1> Birthday Cake 🎂</h1>
+
+  <div class="cake" id="cake" onclick="blowCandles()">🎂</div>
+
+  <h2 id="cakeMessage">Tap the cake to blow out the candles!</h2>
+
+  <p class="candle-note"> All your beautiful dreams and wishes will come true.I am ready to support you on all times dear💗✨</p>
+
+  <button id="cakeNext" style="display:none" onclick="goTo(5)">
+    LET'S CELEBRATE →
+  </button>
+
+</section>
+
+<!-- SCENE 5: BALLOONS -->
+
+<section class="scene" id="scene5">
+
+  <h1>Pop the Balloons!</h1>
+
+  <p>Each balloon is hiding a little birthday wish.
+  </p>
+
+  <div class="balloon-area" id="balloonArea">
+    <span class="balloon" onclick="popBalloon(this)">🎈</span>
+    <span class="balloon" onclick="popBalloon(this)">🎈</span>
+    <span class="balloon" onclick="popBalloon(this)">🎈</span>
+    <span class="balloon" onclick="popBalloon(this)">🎈</span>
+    <span class="balloon" onclick="popBalloon(this)">🎈</span>
+    <span class="balloon" onclick="popBalloon(this)">🎈</span>
+  </div>
+
+  <h2 id="balloonMessage">Pop all 6 balloons!</h2>
+
+  <button id="balloonNext" style="display:none" onclick="goTo(6)">
+    SEE OUR MEMORIES →
+  </button>
+
+</section>
+
+<!-- SCENE 6: PHOTOS -->
+
+<section class="scene" id="scene6">
+
+  <h1>Our Little Memories</h1>
+
+  <p>
+    Some moments become memories.
+    Some memories become treasures.
+    You are my biggest treasure mookii..🥹
+  </p>
+
+  <div class="memory-grid">
+    <img src="assets/photo1.jpg" alt="Memory 1">
+    <img src="assets/photo2.jpg" alt="Memory 2">
+    <img src="assets/photo3.jpg" alt="Memory 3">
+    <img src="assets/photo4.jpg" alt="Memory 4">
+  </div>
+
+  <p>Every picture holds our little story ❤️</p>
+
+  <button onclick="goTo(7)">For mine →</button>
+
+</section>
+
+<!-- SCENE 7: VIDEO -->
+
+<section class="scene" id="scene7">
+
+  <h1>A Video that holds lots of memories and love </h1>
+
+  <p>Press play and enjoy the efforts of your pookii.</p>
+
+  <div class="video-box">
+    <video controls playsinline preload="metadata">
+      <source src="assets/memory.mp4" type="video/mp4">
+      Your browser does not support this video.
+    </video>
+  </div>
+
+  <button onclick="goTo(8)">ONE MORE SURPRISE →</button>
+
+</section>
+
+<!-- SCENE 8: LETTER -->
+
+<section class="scene" id="scene8">
+
+  <p>WORDS FROM MY HEART</p>
+
+  <h1>My heart felt Letter For You 💌</h1>
+
+  <div class="envelope" id="envelope" onclick="openLetter()">💌</div>
+
+  <p>Tap the envelope to read thespecial letter.</p>
+
+  <div class="letter" id="letter">
+    <h2>Dear Mine,</h2>
+
+    <p>
+      Dear Partner,
+            Happiest birthday.May this birthday brings you lots of happiness thamgamaee.
+    </p>
+
+    <p>
+      Thank you for being such a special part of my life.
+      yaarkittayum close aagadha na unkooda aana.Unkitta pesa kooda thairiyam illadha na unna love pannitu iruka ipo,nambavae mudiyala ennala..nee en life la kedaicha gift ra❤.
+      Ella situation laiyum na unnoda na irukanum nu aasa padura mookii🥺..until my death you will be loved by my me kanna🥹
+    </p>
+
+    <p>
+     Unkooda na irundha,irukura and irupa mu mu.Keep smiling, keep shining and never stop being you.
+      Once again biggest happy birthday my forever🥺❤..!!
+    </p>
+
+    <h2>With lots of love ❤️</h2>
+  </div>
+
+  <button id="letterNext" style="display:none" onclick="goTo(9)">
+    FINAL SURPRISE →
+  </button>
+
+</section>
+
+<!-- SCENE 9: FINAL -->
+
+<section class="scene" id="scene9">
+
+  <div class="final-heart">❤️</div>
+
+  <p>AND FINALLY...</p>
+
+  <h1>HAPPY BIRTHDAY MY EVERYTHING..!!</h1>
+
+  <h2 id="finalName">To My Special Person</h2>
+
+  <p>
+    This little website may end here,
+    but the wishes, smiles and beautiful memories of us are started already and
+    are meant to last.
+  </p>
+
+  <h1 class="gold-text">✨ Forever Special ✨</h1>
+
+  <p>Made with love🫳💓</p>
+
+  <button onclick="restart()">REPLAY THE SURPRISE ↻</button>
+
+  <footer> A little website for my boy❤️ </footer>
+
+</section>
+
+<script>
+
+// =================================
+// PERSONAL DETAILS - EDIT THESE
+// =================================
+
+const PARTNER_NAME = "Every passing second is a quiet wish for your happiness";
+
+// Change this to the actual birthday date.
+// Format: YYYY-MM-DDTHH:MM:SS+05:30
+const BIRTHDAY_DATE = "2026-11-26T00:00:00+05:30";
+
+// =================================
+// COUNTDOWN
+// =================================
+
+const targetDate = new Date(BIRTHDAY_DATE).getTime();
+
+function updateCountdown() {
+
+  const now = Date.now();
+  const distance = targetDate - now;
+
+  if (distance <= 0) {
+    ["days", "hours", "minutes", "seconds"].forEach(id => {
+      document.getElementById(id).textContent = "00";
+    });
+
+    document.getElementById("countdownText").textContent =
+      "The special day is here! Happy Birthday!";
+
+    return;
+  }
+
+  const d = Math.floor(distance / 86400000);
+  const h = Math.floor((distance % 86400000) / 3600000);
+  const m = Math.floor((distance % 3600000) / 60000);
+  const s = Math.floor((distance % 60000) / 1000);
+
+  document.getElementById("days").textContent = d;
+  document.getElementById("hours").textContent = h;
+  document.getElementById("minutes").textContent = m;
+  document.getElementById("seconds").textContent = s;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// Personalize names
+
+document.getElementById("partnerWelcome").textContent =
+  "To " + PARTNER_NAME + " ❤️";
+
+document.getElementById("finalName").textContent =
+  "To " + PARTNER_NAME;
+
+// =================================
+// PAGE NAVIGATION
+// =================================
+
+function goTo(number) {
+
+  document.querySelectorAll(".scene").forEach(scene => {
+    scene.classList.remove("active");
+  });
+
+  document.getElementById("scene" + number).classList.add("active");
+
+  window.scrollTo(0, 0);
+}
+
+// =================================
+// BACKGROUND MUSIC
+// =================================
+
+const music = document.getElementById("music");
+
+function toggleMusic() {
+
+  if (music.paused) {
+
+    music.play().then(() => {
+      document.getElementById("musicBtn").textContent = "♫ Music ON";
+    }).catch(() => {
+      alert("Please add your music file in assets/music.mp3");
+    });
+
+  } else {
+
+    music.pause();
+    document.getElementById("musicBtn").textContent = "♫ Music OFF";
+
+  }
+}
+
+// =================================
+// GIFT OPENING
+// =================================
+
+function openGift() {
+
+  const gift = document.getElementById("gift");
+
+  gift.classList.add("open");
+
+  gift.textContent = "🎊";
+
+  document.getElementById("giftMessage").style.display = "block";
+
+  sparkleBurst();
+}
+
+// =================================
+// CAKE AND CANDLES
+// =================================
+
+let candlesBlown = false;
+
+function blowCandles() {
+
+  if (candlesBlown) return;
+
+  candlesBlown = true;
+
+  document.getElementById("cake").textContent = "🍰";
+
+  document.getElementById("cakeMessage").textContent =
+    "Your wish is on its way! ✨";
+
+  document.getElementById("cakeNext").style.display = "inline-block";
+
+  sparkleBurst();
+}
+
+// =================================
+// BALLOON POPPING
+// =================================
+
+let poppedCount = 0;
+
+function popBalloon(balloon) {
+
+  if (balloon.classList.contains("popped")) return;
+
+  balloon.classList.add("popped");
+
+  poppedCount++;
+
+  document.getElementById("balloonMessage").textContent =
+    "You popped " + poppedCount + " of 6 balloons!";
+
+  sparkleBurst();
+
+  if (poppedCount === 6) {
+
+    document.getElementById("balloonMessage").textContent =
+      "Yay! All balloons popped! 🎉";
+
+    document.getElementById("balloonNext").style.display =
+      "inline-block";
+  }
+}
+
+// =================================
+// OPEN LETTER
+// =================================
+
+function openLetter() {
+
+  document.getElementById("envelope").classList.add("open");
+
+  document.getElementById("letter").style.display = "block";
+
+  document.getElementById("letterNext").style.display =
+    "inline-block";
+
+  sparkleBurst();
+}
+
+// =================================
+// GOLDEN SPARKLES
+// =================================
+
+function sparkleBurst() {
+
+  for (let i = 0; i < 25; i++) {
+
+    const sparkle = document.createElement("div");
+
+    sparkle.className = "sparkle";
+
+    sparkle.textContent = ["✦", "✨", "⋆", "✧","♥"][
+      Math.floor(Math.random() * 4)
+    ];
+
+    sparkle.style.left = Math.random() * 100 + "vw";
+
+    sparkle.style.animationDuration =
+      (2 + Math.random() * 3) + "s";
+
+    sparkle.style.fontSize =
+      (10 + Math.random() * 20) + "px";
+
+    document.body.appendChild(sparkle);
+
+    setTimeout(() => sparkle.remove(), 5000);
+  }
+}
+
+// =================================
+// RESTART
+// =================================
+
+function restart() {
+
+  candlesBlown = false;
+  poppedCount = 0;
+
+  document.getElementById("gift").textContent = "🎁";
+  document.getElementById("gift").classList.remove("open");
+
+  document.getElementById("giftMessage").style.display = "none";
+
+  document.getElementById("cake").textContent = "🎂";
+  document.getElementById("cakeMessage").textContent =
+    "Tap the cake to blow out the candles!";
+
+  document.getElementById("cakeNext").style.display = "none";
+
+  document.querySelectorAll(".balloon").forEach(balloon => {
+    balloon.classList.remove("popped");
+  });
+
+  document.getElementById("balloonMessage").textContent =
+    "Pop all 6 balloons!";
+
+  document.getElementById("balloonNext").style.display = "none";
+
+  document.getElementById("envelope").classList.remove("open");
+  document.getElementById("letter").style.display = "none";
+  document.getElementById("letterNext").style.display = "none";
+
+  goTo(1);
+}
+
+// Gentle background sparkle effect
+
+setInterval(() => {
+
+  const sparkle = document.createElement("div");
+
+  sparkle.className = "sparkle";
+  sparkle.textContent = "✦";
+  sparkle.style.left = Math.random() * 100 + "vw";
+  sparkle.style.animationDuration = "5s";
+
+  document.body.appendChild(sparkle);
+
+  setTimeout(() => sparkle.remove(), 5000);
+
+}, 800);
+
+</script>
+
+</body>
+</html>
